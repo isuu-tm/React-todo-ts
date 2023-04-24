@@ -1,28 +1,29 @@
 import React, {useState} from 'react';
 import './App.css'
 import {TaskType, TodoList} from "./components/TodoList";
+import {v1} from "uuid";
 
 export type FilterType = 'All' | 'Active' | 'Completed';
 
 const App = () => {
 
     const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id:1, title:'React', isDone:true},
-        {id:2, title:'React', isDone:true},
-        {id:3, title:'Angular', isDone:false},
-        {id:4, title:'React', isDone:true},
+        {id:v1(), title:'React', isDone:true},
+        {id:v1(), title:'React', isDone:true},
+        {id:v1(), title:'Angular', isDone:false},
+        {id:v1(), title:'React', isDone:true},
     ])
 
-    function removeTask(id:number) {
+    function removeTask(id:string) {
         setTasks(tasks.filter( task => id !== task.id ))
         /* Метод filter возвращет элементы которые прошли проверку,
         * непостредственнно true || false */
     }
     const [tasks1, setTasks1] = useState<Array<TaskType>>([
-        {id:1, title:'React', isDone:true},
-        {id:2, title:'Vue', isDone:true},
-        {id:3, title:'Angular', isDone:false},
-        {id:4, title:'React', isDone:true},
+        {id:v1(), title:'React', isDone:true},
+        {id:v1(), title:'Vue', isDone:true},
+        {id:v1(), title:'Angular', isDone:false},
+        {id:v1(), title:'React', isDone:true},
     ])
 
 
@@ -44,6 +45,12 @@ const App = () => {
         setFilter(value)
     }
 
+    function addTask(title:string) {
+        let newTask = {id:v1(), title:title, isDone:false};
+        let newTasks = ([newTask, ...tasks])
+        setTasks(newTasks)
+    }
+
     return (
         <div className='app'>
             <TodoList
@@ -51,6 +58,7 @@ const App = () => {
                 tasks={tasksForFilter}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
             />
         </div>
     );
